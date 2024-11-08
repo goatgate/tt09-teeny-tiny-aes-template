@@ -33,7 +33,7 @@ module tt_um_ccu_goatgate (
                           .clk(clk),
                           .reset(rst_n),
                           .data_in(din),
-                          .key_in(kin),
+                          .key(kin),
                           .data_out(dout)
                           
                        );
