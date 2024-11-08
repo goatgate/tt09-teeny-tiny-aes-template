@@ -34,7 +34,7 @@ module tt_um_ccu_goatgate (
                           .reset(rst_n),
                           .data_in(din),
                           .key(kin),
-                          .data_out(dout)
+                          .data_out1(dout)
                           
                        );
 endmodule
