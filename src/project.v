@@ -17,14 +17,15 @@ module tt_um_ccu_goatgate (
 );
 
   // All output pins must be assigned. If not used, assign to 0.
-  assign [3:0] uo_out  = dout;  // Example: ou_out is the sum of ui_in and uio_in
-  assign [7:4] uo_out = 0; 
-  assign [3:0] ui_in = din;
-  assign [7:4] ui_in = kin;
-  assign uio_out = 0;
-  assign uio_oe  = 0;
-  //i/o definitions
-    wire [3:0] din,kin,dout;
+    assign uo_out[3:0] = dout;
+    assign uo_out[7:4] = 0;
+    assign uio_out = 0;
+    assign uio_oe  = 0;
+    
+    // I/O definitions
+    wire [3:0] din = ui_in[3:0];
+    wire [3:0] kin = ui_in[7:4];
+    wire [3:0] dout;
     
   // List all unused inputs to prevent warnings
   wire _unused = &{ena, 1'b0};
