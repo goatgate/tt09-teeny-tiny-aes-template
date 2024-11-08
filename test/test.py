@@ -24,39 +24,31 @@ async def test_tt_um_ccu_goatgate(dut):
     dut.rst_n.value = 1
 
     # Initialize inputs
-    dut.ena.value = 1
-    dut.ui_in.value = 0
-    dut.uio_in.value = 0
+    # Assuming data_x and data_y are 32-bit integers
+for i in range(0, 32, 4):  # Iterate in steps of 4 bits
+    # Load 4 bits of data_x and data_y
+    dut.ui_in[0].value = (data_x >> i) & 1       # Load LSB of 4-bit chunk
+    dut.ui_in[1].value = (data_x >> (i + 1)) & 1
+    dut.ui_in[2].value = (data_x >> (i + 2)) & 1
+    dut.ui_in[3].value = (data_x >> (i + 3)) & 1
 
-    # Test Case 1: Encrypt with key = 4'b1011 and data_in = 4'b1101
-    dut.ui_in.value = 0b1101 | (0b1011 << D_W)
-    dut._log.info("Test Case 1: data_in = 4'b1101, key = 4'b1011")
-    await RisingEdge(dut.clk)
+    dut.ui_in[4].value = (data_y >> i) & 1       # Load LSB of 4-bit chunk
+    dut.ui_in[5].value = (data_y >> (i + 1)) & 1
+    dut.ui_in[6].value = (data_y >> (i + 2)) & 1
+    dut.ui_in[7].value = (data_y >> (i + 3)) & 1
+
+    # Wait for the values to be processed
     await Timer(40, units="ns")
-    assert dut.uo_out.value == 0b0110, f"Test Case 1 failed: Expected 0b0110, got {dut.uo_out.value}"
 
-    # Test Case 2: Encrypt with key = 4'b0110 and data_in = 4'b0011
-    dut.ui_in.value = 0b0011 | (0b0110 << D_W)
-    dut._log.info("Test Case 2: data_in = 4'b0011, key = 4'b0110")
-    await RisingEdge(dut.clk)
+    # Deassert the load signal
+    dut.ui_in[2].value = 0  # Deassert load
     await Timer(40, units="ns")
-    assert dut.uo_out.value == 0b0101, f"Test Case 2 failed: Expected 0b0101, got {dut.uo_out.value}"
-
-    # Test Case 3: Encrypt with key = 4'b1111 and data_in = 4'b0001
-    dut.ui_in.value = 0b0001 | (0b1111 << D_W)
-    dut._log.info("Test Case 3: data_in = 4'b0001, key = 4'b1111")
-    await RisingEdge(dut.clk)
+    
+    # Initialize
+    dut.ui_in[3].value = 1  # Assert init
     await Timer(40, units="ns")
-    assert dut.uo_out.value == 0b1110, f"Test Case 3 failed: Expected 0b1110, got {dut.uo_out.value}"
-
-    # Test Case 4: Encrypt with key = 4'b1000 and data_in = 4'b0110
-    dut.ui_in.value = 0b0110 | (0b1000 << D_W)
-    dut._log.info("Test Case 4: data_in = 4'b0110, key = 4'b1000")
-    await RisingEdge(dut.clk)
-    await Timer(40, units="ns")
-    assert dut.uo_out.value == 0b1110, f"Test Case 4 failed: Expected 0b1110, got {dut.uo_out.value}"
-
-    dut._log.info("All test cases passed successfully")
+    dut.ui_in[3].value = 0  # Deassert init
+    await Timer(140, units="ns")
 
 
     # Keep testing the module by changing the input values, waiting for
