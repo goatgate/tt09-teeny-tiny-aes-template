@@ -9,12 +9,10 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
-
+A simple encryption core with a 4 bit input 4 bit key and a 4 bit output
 ## How to test
 
-Explain how to use your project
-
+you can send randomized inputs of 4 bit length for the input and key and get a 4 bit output
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+no external harware but memory to send test data
