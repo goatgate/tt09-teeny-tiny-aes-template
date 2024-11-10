@@ -1,6 +1,6 @@
 # Tiny Tapeout project information
 project:
-  title:        "tiny cipher"      # Project title
+  title:        "tiny cipher 4 bit key"      # Project title
   author:       "sriram nimmala"      # Your name
   discord:      "worm"      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
   description:  "a tiny encryption core that encryptes based on input key"      # One line description of what your project does
